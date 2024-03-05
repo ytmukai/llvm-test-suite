@@ -686,6 +686,14 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   public_private_module_2.f90
   sizeof_3.f90
 
+  # unimplemented: dynamic character length in structure constructor
+  alloc_comp_assign_13.f08
+  alloc_comp_assign_14.f08
+  array_reference_2.f90
+  block_13.f08
+  deferred_type_component_1.f90
+  deferred_type_component_2.f90
+
   # unimplemented: character array expression temp with dynamic length.
   actual_array_constructor_2.f90
   array_constructor_17.f90
@@ -703,72 +711,11 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   pr91862.f90
   transfer_resolve_1.f90
 
-  # unimplemented: allocatable component in structure constructor
-  allocatable_scalar_13.f90
-  alloc_comp_assign_13.f08
-  alloc_comp_assign_14.f08
-  alloc_comp_assign_2.f90
-  alloc_comp_assign_3.f90
-  alloc_comp_assign_4.f90
-  alloc_comp_assign_5.f90
-  alloc_comp_class_3.f03
-  alloc_comp_class_4.f03
-  alloc_comp_constructor_1.f90
-  alloc_comp_constructor_2.f90
-  alloc_comp_constructor_3.f90
-  alloc_comp_constructor_4.f90
-  alloc_comp_constructor_7.f90
-  alloc_comp_deep_copy_2.f03
-  alloc_comp_deep_copy_3.f03
-  alloc_comp_initializer_1.f90
-  alloc_comp_initializer_4.f03
-  alloc_comp_init_expr.f03
-  alloc_comp_optional_1.f90
-  alloc_comp_result_1.f90
-  array_reference_2.f90
-  associate_60.f90
-  block_13.f08
-  class_result_9.f90
-  deferred_type_component_1.f90
-  deferred_type_component_2.f90
-  derived_constructor_comps_5.f90
-  derived_constructor_comps_6.f90
-  extends_4.f03
-  null_9.f90
-  pr43808.f90
-  realloc_on_assign_16.f90
-  realloc_on_assign_17.f90
-  structure_constructor_17.f90
-  typebound_operator_13.f03
-
   # unimplemented: allocatable components in derived type assignment
   alloc_comp_result_2.f90
   generic_30.f90
   pr50769.f90
   realloc_on_assign_16a.f90
-
-  # unimplemented: gather rhs LEN parameters in assignment to allocatable
-  allocate_assumed_charlen_4.f90
-  allocate_error_5.f90
-  associate_58.f90
-  bounds_check_22.f90
-  char_length_20.f90
-  char_length_21.f90
-  deferred_character_1.f90
-  deferred_character_14.f90
-  deferred_character_2.f90
-  deferred_character_21.f90
-  deferred_character_22.f90
-  deferred_character_27.f90
-  deferred_character_34.f90
-  deferred_character_4.f90
-  deferred_character_7.f90
-  dependency_50.f90
-  dependency_51.f90
-  elemental_function_3.f90
-  elemental_function_2.f90
-  realloc_on_assign_14.f90
-  widechar_11.f90
 
   # unimplemented: passing dynamically optional argument to elemental procedures
   bounds_check_9.f90
@@ -873,11 +820,6 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   erfc_scaled_1.f90
   erf_2.F90
   erf_3.F90
-
-  # unimplemented: intrinsic: execute_command_line
-  execute_command_line_1.f90
-  execute_command_line_2.f90
-  execute_command_line_3.f90
 
   # unimplemented: intrinsic: failed_images
   coarray_failed_images_1.f08
@@ -1023,11 +965,15 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   forall_3.f90
   pr49698.f90
 
+  # unimplemented: compute elemental function result length parameters in HLFIR
+  elemental_function_3.f90
+
   # These tests are NYI: support for polymorphic types; when polymorphic
   # type support is enabled by option, they pass.  Delete these when
   # polymorphic types are enabled by default.
   actual_array_offset_1.f90
   allocate_class_3.f90
+  allocate_class_4.f90
   allocate_with_mold_1.f90
   allocate_with_mold_3.f90
   allocate_with_source_15.f03
@@ -1038,9 +984,11 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   alloc_comp_assign_12.f03
   alloc_comp_assign_16.f03
   alloc_comp_class_1.f90
+  alloc_comp_class_4.f03
   alloc_comp_class_5.f03
   associate_28.f90
   associate_46.f90
+  associate_60.f90
   associated_target_6.f03
   associated_target_7.f90
   class_19.f03
@@ -1063,6 +1011,7 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   class_defined_operator_1.f03
   class_defined_operator_2.f03
   class_dummy_2.f03
+  class_result_9.f90
   class_result_10.f90
   class_result_1.f03
   class_to_type_3.f03
@@ -1133,6 +1082,7 @@ file(GLOB UNIMPLEMENTED_FILES CONFIGURE_DEPENDS
   typebound_generic_6.f03
   typebound_generic_9.f03
   typebound_operator_12.f03
+  typebound_operator_13.f03
   typebound_operator_20.f90
   typebound_operator_21.f03
   typebound_operator_3.f03
@@ -1255,6 +1205,7 @@ file(GLOB SKIPPED_FILES CONFIGURE_DEPENDS
   pr106918.f90 # NYI: dynamic character length in struct constr
   pr92050.f90 # needs -fcheck=all
   winapi.f90 # needs -lkernel32 and target *-*-cygwin*
+  widechar_11.f90 # No ASSIGNMENT matches TYPE(c_ptr) and TYPE(__builtin_c_ptr)
 
   # error: 'fir.convert' op invalid type conversion
   achar_4.f90
@@ -1840,6 +1791,30 @@ file(GLOB SKIPPED_FILES CONFIGURE_DEPENDS
   pr93524.f90
   public_private_module_3.f90
   static_linking_1.f
+
+  # ----------------------------------------------------------------------------
+  #
+  # These files are only intended to be run on AArch64, but we don't currently
+  # process the target attribute, so these are disabled everywhere. When the
+  # DejaGNU target attribute is handled correctly, these should be removed from
+  # here.
+  pr101158.f90
+  pr88833.f90
+  pr98974.F90
+
+  # ----------------------------------------------------------------------------
+  #
+  # These tests have a -J flag but the build system adds a -J of its own and
+  # exactly one is allowed. If the build system is changed, these can be removed
+  # from here.
+  include_14.f90
+  include_15.f90
+  include_16.f90
+  include_17.f90
+  include_18.f90
+  include_19.f90
+  include_20.f90
+  include_8.f90
 )
 
 # These tests are disabled because they fail when they are expected to pass.
@@ -1869,6 +1844,23 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   Wall.f90 # no warning for missing & on continuation line in char constant
   Wno-all.f90 # no warning for missing & on continuation line in char constant
   bessel_7.f90 # unclear
+  bounds_check_10.f90
+  bounds_check_7.f90
+  bounds_check_array_ctor_1.f90
+  bounds_check_array_ctor_2.f90
+  bounds_check_array_ctor_6.f90
+  bounds_check_array_ctor_7.f90
+  bounds_check_array_ctor_8.f90
+  bounds_check_fail_4.f90
+  bounds_check_strlen_1.f90
+  bounds_check_strlen_2.f90
+  bounds_check_strlen_3.f90
+  bounds_check_strlen_4.f90
+  bounds_check_strlen_5.f90
+  bounds_check_strlen_7.f90
+  char_bounds_check_fail_1.f90
+  char_pointer_assign_4.f90
+  char_pointer_assign_5.f90
   check_bits_1.f90 # requires -fcheck=bits to catch ISHFTC runtime error
   check_bits_2.f90 # requires -fcheck=bits to catch ISHFTC runtime error
   internal_dummy_2.f08 # causes flang-new to crash llvm-project/issues/76927
@@ -1877,10 +1869,16 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   dollar_edit_descriptor_4.f # TODO: (i3,$) format shouldn't advance record when looping
   list_read_11.f90 # more CR character shenanigans
   matmul_5.f90
+  matmul_bounds_10.f90
   matmul_bounds_11.f90
   matmul_bounds_13.f90
   matmul_bounds_15.f
   matmul_bounds_16.f
+  matmul_bounds_2.f90
+  matmul_bounds_3.f90
+  matmul_bounds_4.f90
+  matmul_bounds_5.f90
+  matmul_bounds_8.f90
   matmul_bounds_7.f90
   matmul_bounds_9.f90
   maxloc_2.f90
@@ -1890,6 +1888,7 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   maxlocval_2.f90
   maxlocval_4.f90
   merge_bits_2.F90
+  merge_char_3.f90
   minloc_1.f90
   minlocval_1.f90
   minlocval_4.f90
@@ -1929,6 +1928,11 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   pr96436_3.f90
   pr96436_4.f90
   pr96436_5.f90
+  pr96436_6.f90
+  pr96436_7.f90
+  pr96436_8.f90
+  pr96436_9.f90
+  pr96436_10.f90
   promotion_3.f90
   promotion_4.f90
   promotion.f90
@@ -1960,7 +1964,10 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   real8-4.f90
   real_const_3.f90
   realloc_on_assign_11.f90
+  recursive_check_11.f90
+  recursive_check_13.f90
   recursive_check_7.f90
+  recursive_check_9.f90
   repeat_1.f90
   reshape_order_1.f90
   reshape_order_2.f90
@@ -1974,10 +1981,12 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   streamio_17.f90
   streamio_4.f90
   system_clock_3.f08
+  transpose_2.f90
   unf_io_convert_4.f90
   unf_read_corrupted_1.f90
   unf_short_record_1.f90
   unformatted_subrecord_1.f90
+  unpack_bounds_1.f90
   unpack_bounds_2.f90
   unpack_bounds_3.f90
   utf8_1.f03
@@ -1990,6 +1999,7 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   widechar_intrinsics_8.f90
   write_check.f90
   zero_sized_1.f90
+  elemental_function_2.f90
 
   # ---------------------------------------------------------------------------
   #
@@ -2004,7 +2014,34 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
 
   # ---------------------------------------------------------------------------
   #
+  # These tests are expected to raise a runtime error, but currently don't.
+
+  allocate_error_1.f90
+  cshift_bounds_2.f90
+  deallocate_error_1.f90
+  deallocate_error_2.f90
+  do_check_2.f90
+  do_check_3.f90
+  do_check_4.f90
+  do_check_11.f90
+  do_check_12.f90
+  endfile_4.f90
+  fmt_g0_2.f08
+  inline_sum_bounds_check_1.f90
+  inline_sum_bounds_check_2.f90
+  io_real_boz2.f90
+  io_real_boz_4.f90
+  io_real_boz_5.f90
+  no_unit_error_1.f90
+  pointer_check_10.f90
+  pointer_remapping_6.f08
+
+  # ---------------------------------------------------------------------------
+  #
   # Compilation of these tests is expected to fail, but it succeeds instead.
+
+  binding_label_tests_26b.f90
+  test_common_binding_labels_2_main.f03
 
   # Tests that exercise gfortran's ability to set -std=f95 and then see errors on newer features
   abstract_type_1.f90
@@ -2242,6 +2279,23 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
   warn_conversion.f90
   whole_file_1.f90
   whole_file_2.f90
+
+  # Tests that used to be hard errors, are now warnings, need -pedantic to
+  # observe them
+  generic_32.f90
+  generic_34.f90
+  generic_7.f90
+  interface_37.f90
+  interface_6.f90
+  pr77406.f90
+  pr95584.f90
+  typebound_generic_10.f03
+  typebound_generic_11.f90
+  typebound_generic_12.f03
+  typebound_generic_13.f03
+  typebound_operator_14.f90
+  typebound_operator_16.f03
+  deallocate_error_2.f90
 
   # Tests that would be errors if we supported options to enable checks
   dec_structure_24.f90
@@ -2773,4 +2827,7 @@ file(GLOB FAILING_FILES CONFIGURE_DEPENDS
 
   # Requires -ffloat-store
   nearest_1.f90
+
+  # Requires -fcheck=mem
+  allocate_error_5.f90
 )
